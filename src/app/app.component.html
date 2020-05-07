@@ -14,6 +14,61 @@
 
           Upon submitting the form, simply print the value to the console
       -->
+      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="projectName">Project Name: </label>
+            <input
+              type="text"
+              id="projectName"
+              [formControlName]="'projectName'"
+              class="form-control">
+              <span 
+                class="help-block"
+                *ngIf="projectForm.get('projectName').touched && projectForm.get('projectName').errors!=null && projectForm.get('projectName').errors['required']">
+                Please enter Project Name!</span>
+              <span 
+                class="help-block"
+                *ngIf="projectForm.get('projectName').touched && projectForm.get('projectName').errors!=null && projectForm.get('projectName').errors['invalidProjectName']">
+                Please enter valid Project Name! (It cannot be Test)</span>
+        </div>
+        <div class="form-group">
+            <label for="mail">Mail: </label>
+            <input
+              type="email"
+              id="mail"
+              [formControlName]="'mail'"
+              class="form-control">
+              <span 
+                class="help-block"
+                *ngIf="projectForm.get('mail').touched && projectForm.get('mail').errors!=null && projectForm.get('mail').errors['required']">
+                Please enter Mail!</span>
+                <span 
+                class="help-block"
+                *ngIf="projectForm.get('mail').touched && projectForm.get('mail').errors!=null && projectForm.get('mail').errors['email']">
+                Please enter valid Mail!</span>
+          </div>
+          <div class="form-group">
+            <label for="projectStatus">Project Status:</label>
+            <select 
+              class="form-control" 
+              [formControlName]="'projectStatus'"
+              id="projectStatus">
+                <option  
+                  *ngFor="let projectStatusOption of projectStatusOptions" 
+                  [value]="projectStatusOption"> {{projectStatusOption}} </option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary" type="submit" [disabled]="projectForm.invalid || projectForm.pending">Submit</button>
+      </form>
+      
+      <div *ngIf="project">
+        <hr/>
+        <h4>Project Details: </h4>
+        <p>Project Name: {{project.projectName}}</p>
+        <p>Mail: {{project.mail}}</p>
+        <p>Project Status: {{project.projectStatus}}</p>
+      </div>
     </div>
   </div>
 </div>
